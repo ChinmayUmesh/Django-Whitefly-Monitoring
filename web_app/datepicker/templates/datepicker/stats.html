@@ -1,0 +1,40 @@
+{% extends "datepicker/base.html" %}
+{% block content %}
+
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<p class = "article-content">
+<form method = "POST">
+  {% csrf_token %}
+From: <input type = "date" name = "fromdate"/>
+To: <input type = "date" name = "todate"/>
+<input type = "submit" value = "Search"/>
+  <a href="{% url 'export-csv' %}" class="button">Export CSV</a>
+</form>
+</p>
+
+<div id="container"></div>
+
+<script>
+    Highcharts.chart('container', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Stats'
+      },
+      xAxis: {
+          categories: {{ Location|safe }}
+      },
+      series: [{
+          name: 'AM',
+          data: {{ AM|safe }},
+          color: 'green'
+      }, {
+          name: 'PM',
+          data: {{ PM|safe }},
+          color: 'red'
+      }]
+  });
+</script>
+{% endblock content %}

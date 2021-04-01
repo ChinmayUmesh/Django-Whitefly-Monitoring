@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Whitefly Monitor Network </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+     <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <h1><center> REAL-TIME WHITEFLY MONITORING NETWORK </center></h1>
+    <h2> Station ID: </h2>
+    <h3> Location: </h3>
+    <h3> Georgia Environmental Monitoring Station: </h3>
+
+    <!--Date Picker-->
+    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+      <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      </div>
+    </div>
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker();
+      });
+    </script>
+
+    <!--add text between modules-->
+
+    <!--Map-->
+    <div id="Map" style="height:600px"></div>
+    <script src="OpenLayers/OpenLayers.js"></script>
+    <script>
+        var lat = 31.4505;
+        var lon = -83.5085;
+        var zoom = 13;
+
+        var lat_marker = 31.4396;
+        var lon_marker = -83.5193;
+
+        var fromProjection = new OpenLayers.Projection("EPSG:4326");
+        var toProjection = new OpenLayers.Projection("EPSG:900913");
+        var position = new OpenLayers.LonLat(lon, lat).transform(fromProjection, toProjection);
+        var marker_position = new OpenLayers.LonLat(lon_marker, lat_marker).transform(fromProjection, toProjection);
+
+        var map = new OpenLayers.Map("Map");
+        var map_layer = new OpenLayers.Layer.OSM();
+        map.addLayer(map_layer);
+
+        var markers = new OpenLayers.Layer.Markers("Markers")
+        map.addLayer(markers);
+        markers.addMarker(new OpenLayers.Marker(position));
+
+        var markers2 = new OpenLayers.Layer.Markers("Markers")
+        map.addLayer(markers2);
+        markers2.addMarker(new OpenLayers.Marker(marker_position));
+
+        markers.events.register('click', map, clickMarker);
+        map.setCenter(position, zoom);
+
+        markers2.events.register('click', map, clickMarker);
+        map.setCenter(position, zoom);
+
+        function clickMarker(){
+            alert('click');
+        }
+    </script>
+
+</body>
+</html>

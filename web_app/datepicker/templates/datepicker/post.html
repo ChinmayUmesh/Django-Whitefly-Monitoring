@@ -1,0 +1,51 @@
+{% extends "datepicker/base.html" %}
+{% block content %}
+<!--    {% for post in posts %}-->
+
+        <article class="media content-section">
+<!--          < class="media-body">-->
+            <div class="article-metadata">
+                <h2><a class="mr-2">Location:</a></h2>
+
+                <h5>{{ post.Location }}</h5>
+<!--              <small class="text-muted">{{ post.date_posted }}</small>-->
+                <! -- to filter add |date:"F d, Y" -->
+              <p class = "article-content">
+              <form method = "POST">
+                  {% csrf_token %}
+               From: <input type = "date" name = "fromdate"/>
+                <br>
+               To: <input type = "date" name = "todate"/>
+               <input type = "submit" value = "Search"/>
+              </p>
+            </div>
+
+              <table border="1" align = "center">
+                  <tr>
+                      <th> Date </th>>
+                      <th> Image1 </th>>
+                      <th> Count </th>
+                      <th> Image2 </th>
+                      <th> Count </th>
+                  </tr>
+                  {% for results in data %}
+                  {% if results.location_id == post.id %}
+                  <tr>
+                      <td>{{results.date_posted}}</td>
+                      <td><img src = {{results.img1.url}} height = "100" width = "100"></td>
+                      <td>{{results.count1}}</td>
+                      <td><img src ={{results.img2.url}} height="100" width = "100"></td>
+                      <td>{{results.count2}}</td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+              </table>
+              </form>
+<!--            <h2><a class="article-title" >Station ID: {{ post.StationNo }}</a></h2>-->
+<!--              <p class="article-content"> <img src= {{post.img.url}} width="300"> </p>-->
+<!--              <p class="article-content">Count: {{ post.MonitoringSystem }}</p>-->
+
+        </article>
+
+<!--    {% endfor %}-->
+{% endblock content %}
